@@ -28,18 +28,18 @@ app.post('/api/citations', (req, res) => {
 
 // GET endpoint to fetch all citations
 app.get('/api/citations', (req, res) => {
-    const { password } = req.query; // Expect password to be sent as a query parameter
+    const { username, password } = req.query; // Expect both username and password to be sent as query parameters
     
-    // Check if the password is correct
-    if (password !== 'N@vy0114') {
-        // If the password is incorrect, respond with an unauthorized status code and message
-        return res.status(401).json({ message: 'Unauthorized: Incorrect password' });
+    // Check if the username and password are correct
+    if (username !== 'adam0114' || password !== 'N@vy0114') {
+        // If the credentials are incorrect, respond with an unauthorized status code and message
+        return res.status(401).json({ message: 'Unauthorized: Incorrect username or password' });
     }
-	//
     
-    // If the password is correct, send back the citations
+    // If the credentials are correct, send back the citations
     res.json([...citations].reverse()); // Return citations from newest to oldest
 });
+
 
 // DELETE endpoint to remove a citation by its citation number
 app.delete('/api/citations/:citationNumber', (req, res) => {
