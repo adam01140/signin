@@ -12,6 +12,43 @@ app.use(express.static(path.join(__dirname))); // Serve static files
 
 let citations = [];
 
+
+
+
+
+
+
+
+
+let users = []; // This will store user data
+
+// POST endpoint to create a new user
+app.post('/api/users', (req, res) => {
+    const { username, password } = req.body;
+
+    // Check if the username already exists
+    const userExists = users.some(user => user.username === username);
+    if (userExists) {
+        return res.status(400).json({ message: 'Username already exists', success: false });
+    }
+
+    // Add the new user
+    users.push({ username, password });
+    res.status(201).json({ message: 'User created successfully', success: true });
+});
+
+// GET endpoint to authenticate a user
+app.get('/api/login', (req, res) => {
+    const { username, password } = req.query;
+    const user = users.find(user => user.username === username && user.password === password);
+    if (!user) {
+        return res.status(401).json({ message: 'Unauthorized: Incorrect username or password', success: false });
+    }
+    res.json({ message: 'Login successful', success: true });
+});
+
+
+
 // Adjust the POST endpoint to accept complete citation details
 app.post('/api/citations', (req, res) => {
     const { citationNumber, timeOccurred, locationOccurred, licensePlate } = req.body;
