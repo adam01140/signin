@@ -159,6 +159,47 @@
 
 		
 		
+		document.getElementById("fetchCitations").addEventListener("click", function() {
+            const password = prompt("Please enter the password:");
+            fetch(`https://signin0114-10530df3aff0.herokuapp.com/.com/api/citations?password=${encodeURIComponent(password)}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Unauthorized access or error fetching data.');
+                return response.json();
+            })
+            .then(data => {
+                const licensePlateDiv = document.createElement("div");
+                licensePlateDiv.innerHTML = "<h2>License Plates:</h2>";
+                
+                const citationDetailsDiv = document.createElement("div");
+                citationDetailsDiv.innerHTML = "<h2>Full Citation Details:</h2>";
+
+                data.forEach(citation => {
+                    const lpParagraph = document.createElement("p");
+                    lpParagraph.textContent = citation.licensePlate;
+                    licensePlateDiv.appendChild(lpParagraph);
+
+                    const detailsParagraph = document.createElement("p");
+                    detailsParagraph.innerHTML = `
+                        <strong>Citation Number:</strong> ${citation.citationNumber || "Unavailable"}<br>
+                        <strong>Time Occurred:</strong> ${citation.timeOccurred || "Unavailable"}<br>
+                        <strong>Location Occurred:</strong> ${citation.locationOccurred || "Unavailable"}<br>
+                        <strong>License Plate:</strong> ${citation.licensePlate || "Unavailable"}
+                    `;
+                    citationDetailsDiv.appendChild(detailsParagraph);
+                });
+
+                const listDiv = document.getElementById("list");
+                listDiv.innerHTML = ""; // Clear existing content
+                listDiv.appendChild(licensePlateDiv);
+                listDiv.appendChild(citationDetailsDiv);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Unauthorized access or error fetching data.');
+            });
+        });
+		
+		
     </script>
 </body>
 </html>
