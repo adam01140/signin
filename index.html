@@ -453,7 +453,7 @@ function goToPrevious(currentDivId, prevDivId) {
     function loadDefaultPDF() {
 	
 	
-		const defaultUrl = 'http://127.0.0.1:5000/form.pdf';
+		const defaultUrl = 'https://signin0114-10530df3aff0.herokuapp.com/form.pdf';
             fetch(defaultUrl)
             .then(response => response.blob())
             .then(blob => {
@@ -577,7 +577,7 @@ data.fields.forEach(field => {
 	
 	
 	function loadSecondaryPDF() {
-    const secondaryUrl = 'http://127.0.0.1:5000/form2.pdf';
+    const secondaryUrl = 'https://signin0114-10530df3aff0.herokuapp.com/form2.pdf';
     fetch(secondaryUrl)
         .then(response => response.blob())
         .then(blob => {
